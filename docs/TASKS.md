@@ -158,8 +158,8 @@ The Catalogue service should also be able to give you a rough overview of how we
 | ------------------ | ------------ |
 | 0                  | Not in Stock |
 | 1-5                | Low Stock    |
-| 5 - 10             | Medium Stock |
-| 10+                | High Stock   |
+| 6 - 10             | Medium Stock |
+| 11+                | High Stock   |
 
 Write an initial test to check what happens when the `stockReview` function is called with a book that is not in stock.
 
