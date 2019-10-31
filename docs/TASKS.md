@@ -14,39 +14,111 @@ Then Person B writes the test and code for task 4.
 
 Person A writes the code and implements the function for task 5 and so on and so on.
 
-## 1) Run the tests for `catalogueService.checkBook`
+## 1) Run the tests for `catalogueService.countBooks`
 
 There are currently tests for just one function - if you run the test `npm run test` you'll notice the tests are failing.
 
-## 2) Implement the `catalogueService.checkBook` function
+## 2) Implement the `catalogueService.countBooks` function
 
-Open the `app/catalogue_service.js` file and implement the `checkBook` function so that the tests now pass.
+Open the `app/catalogue_service.js` file and implement the `countBooks` function so that the tests now pass.
 
 **Hint**
 
 The code in the test itself does NOT need changing
 
-## 3) Add more tests?
+## 3) Write a test for `checkBook`
 
-Are there any more tests you want to add to the `catalogueService.checkBook` function? Can you think of any edge cases? For example, what if the function is called with a book title in lowercase?
+The function should return `true` if the book in question is available in the array and `false` if not. The function will receive a string as an argument.
+
+You should organise your tests like this:
 
 ```javascript
-catalogueService.checkBook("great expectations");
+describe("catalogueService", () => {
+  describe("catalogueService.countBooks", () => {
+    test("returns the number of books in the list", () => {
+      expect(catalogueService.countBooks()).toBe(20);
+    });
+  });
+
+  describe("catalogueService.checkBook", () => {
+    test("returns true if the book exists in the list", () => {
+      expect(catalogueService.checkBook("Dracula by Bram Stoker")).toBe(true);
+    });
+  });
+});
 ```
 
-In this case, should the function ignore case and return `true`? Think about what behaviour you'd like to see from your function.
+## 4) Implement the `catalogueService.checkBook` function
 
-Write at least 1 further test, run the test and ensure it passes.
+In the `app/catalogue_service.js` file, implement the `checkBook` function so that the tests now pass.
 
-## 4) _While_ you're at it...
+## 5) Another test
 
-Before you move onto the next function, if you used a **for loop** in the `checkBook` function, can you change it to a **while** loop?
+What about if the book is not in stock? We need to test that the function also returns the right value (`false`) in this case - which means another test!
 
-Or vice versa, if you started off with a **while loop** can you change it for a **for loop**?
+Update your tests to add another:
 
-The tests should still pass after this **refactor**.
+```javascript
+describe("catalogueService", () => {
+  describe("catalogueService.countBooks", () => {
+    test("returns the number of books in the list", () => {
+      expect(catalogueService.countBooks()).toBe(20);
+    });
+  });
 
-## 5) Write a test for `countBooksByKeyword`
+  describe("catalogueService.checkBook", () => {
+    test("returns true if the book exists in the list", () => {
+      expect(catalogueService.checkBook("Dracula by Bram Stoker")).toBe(true);
+    });
+
+    test("returns false if the book exists in the list", () => {
+      expect(catalogueService.checkBook("Moths by Pamela Mothman")).toBe(false);
+    });
+  });
+});
+```
+
+## 6) Ensure this test passes
+
+Run your tests, perhaps it already passes? If not, you'll need to go back to `app/catalogue_service.js` and take another look at the `checkBook` function to ensure it returns `false` if the item is not available.
+
+## 7) Write a test for `countBooksByFirstLetter`
+
+This function will receive a letter, such as "N", and return a number of how many books begin with this letter.
+
+Begin by adding another `describe` block below the previous one and writing a test for this function. For example:
+
+```javascript
+describe("catalogueService.countBooksByFirstLetter", () => {
+  test("returns the number of books beginning with the given letter", () => {
+    expect(catalogueService.countBooksByFirstLetter("W")).toBe(2);
+  });
+});
+```
+
+## 8) Implement the `catalogueService.countBooksByFirstLetter` function
+
+In the `app/catalogue_service.js` file, implement the `countBooksByFirstLetter` function so that the test now passes.
+
+## 9) What if there are no books?
+
+Add another test that checks that 0 is returned if no books begin with the given letter.
+
+```javascript
+describe("catalogueService.countBooksByFirstLetter", () => {
+  test("returns the number of books beginning with the given letter", () => {
+    expect(catalogueService.countBooksByFirstLetter("W")).toBe(2);
+  });
+
+  test("returns 0 if no books begin with the given letter", () => {
+    expect(catalogueService.countBooksByFirstLetter("X")).toBe(0);
+  });
+});
+```
+
+Ensure this test passes and if it doesn't, you'll want to take a look at your function!
+
+## 10) Write a test for `countBooksByKeyword`
 
 This function should return a count (Number) of how many book titles match a given keyword. For example, if it is called with the keyword "assassin" then it should return the number of books in the catalogue with this keyword.
 
@@ -57,11 +129,11 @@ catalogueService.countBooksByKeyword("normal"); // returns 2
 
 Run the test and see that it fails
 
-## 6) Update your `countBooksByKeyword` function
+## 11) Update your `countBooksByKeyword` function
 
 Your `countBooksByKeyword` function should now be updated to pass the test you just wrote.
 
-## 7) More tests
+## 12) More tests
 
 Think about more input you can test. For example, what if the keyword is not found? Ensure you have a test that tests that `0` is returned in this scenario.
 
@@ -83,7 +155,7 @@ catalogueService.countBooksByKeyword(true);
 catalogueService.countBooksByKeyword([1, 2, 3]);
 ```
 
-## 8) Write a test for `getBooksByAuthor`
+## 13) Write a test for `getBooksByAuthor`
 
 The catalogueService should be able to provide a list of books by a given author.
 
@@ -96,10 +168,12 @@ catalogueService.getBooksByAuthor("Charles Dickens");
 Should return:
 
 ```javascript
-["A Tale of Two Cities", "Oliver Twist", "Great Expectations"];
+[
+  "A Tale of Two Cities by Charles Dickens",
+  "Oliver Twist by Charles Dickens",
+  "Great Expectations by Charles Dickens"
+];
 ```
-
-Note that the author's name is not included in the result!
 
 Write a test for this function. It should fail at the moment.
 
@@ -107,83 +181,21 @@ Write a test for this function. It should fail at the moment.
 
 ```javascript
 expect(catalogueService.getBooksByAuthor("Charles Dickens")).toEqual([
-  "A Tale of Two Cities",
-  "Oliver Twist",
-  "Great Expectations"
+  "A Tale of Two Cities by Charles Dickens",
+  "Oliver Twist by Charles Dickens",
+  "Great Expectations by Charles Dickens"
 ]);
 ```
 
-## 9) Update your `getBooksByAuthor` function
+## 14) Update your `getBooksByAuthor` function
 
 Update the `getBooksByAuthor` function so that the previous test passes.
 
-## 10) More tests
+## 15) More tests
 
 Again, can you write some more tests for the `getBooksByAuthor` function? What if there are no books found, for example? Ensure that the function returns an empty array `[]`.
 
 How about if the author's name is simply provided as `"Charles"`? You would expect books by both Charles Darwin and Charles Dickens to be returned.
-
-## 11) Write a test for `getStockCount`
-
-The Catalogue service should be able to return the number of items that are in stock of a given title. In the list of books, the number in brackets indicates the number of that title currently in stock.
-
-For example:
-
-```javascript
-catalogueService.getStockCount("Between the Assassinations"); // Returns 9
-catalogueService.getStockCount("A Tale of Two Cities"); // Returns 3
-```
-
-Write a test to check this functionality. The test should fail at the moment.
-
-## 12) Update your `getStockCount` function
-
-Implement the code to ensure the above test works.
-
-## 13) More tests
-
-As usual, write further tests to check extra cases. For example, check that `0` is returned when the book's stock count is 0.
-
-What if a book is not listed? Decide with your pair how you want the function to behave.
-
-```javascript
-catalogueService.getStockCount("The Great Gatsby"); // Should return 0? Or "Not in our catalogue" ?
-```
-
-## 14) Write a test for `stockReview`
-
-The Catalogue service should also be able to give you a rough overview of how well stocked your collection is in a specific title. In the list of books, the number in brackets indicates the number of that title currently in stock.
-
-| Quantity of Titles |              |
-| ------------------ | ------------ |
-| 0                  | Not in Stock |
-| 1-5                | Low Stock    |
-| 6 - 10             | Medium Stock |
-| 11+                | High Stock   |
-
-Write an initial test to check what happens when the `stockReview` function is called with a book that is not in stock.
-
-```javascript
-catalogueService.stockReview("Dracula"); // returns "Not in Stock"
-```
-
-## 15) Begin to implement the `stockReview` function
-
-Write the code to ensure that the test you just wrote now passes.
-
-## 16) Test the other cases
-
-Write tests and implement the code for the other 4 cases.
-
-## 17) Switch it up
-
-If you used `if` statements in your `stockReview` function, change them to a `switch` statement.
-
-If you used a `switch` statement, change it to `if` statements.
-
-Ensure the tests still pass after you have made this **refactor**.
-
-Which do you think was a better way to implement the function? Why?
 
 # Written questions
 
