@@ -27,7 +27,13 @@ function countBooks() {
 }
 
 function checkBook(book) {
-  // Your code here
+  for(let i=0; i < catalogue.length; i++) {
+    if(catalogue[i] === book) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 function countBooksByFirstLetter(letter) {
