@@ -33,4 +33,14 @@ describe("catalogueService", () => {
     });
   });
 
+  describe("catalogueService.getBooksByAuthor", () => {
+    test("returns the books for the given author", () => {
+      expect(catalogueService.getBooksByAuthor("Charles Dickens")).toEqual([
+        "A Tale of Two Cities by Charles Dickens",
+        "Oliver Twist by Charles Dickens",
+        "Great Expectations by Charles Dickens"
+      ]);
+    });
+  });
+
 });
