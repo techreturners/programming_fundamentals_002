@@ -17,4 +17,10 @@ describe("catalogueService", () => {
     });
   });
 
+  describe("catalogueService.countBooksByFirstLetter", () => {
+    test("returns the number of books beginning with the given letter", () => {
+      expect(catalogueService.countBooksByFirstLetter("W")).toBe(2);
+    });
+  });
+
 });
