@@ -21,6 +21,10 @@ describe("catalogueService", () => {
     test("returns the number of books beginning with the given letter", () => {
       expect(catalogueService.countBooksByFirstLetter("W")).toBe(2);
     });
+
+    test("returns 0 if no books begin with the given letter", () => {
+      expect(catalogueService.countBooksByFirstLetter("X")).toBe(0);
+    });
   });
 
 });
