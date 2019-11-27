@@ -11,6 +11,10 @@ describe("catalogueService", () => {
     test("returns true if the book exists in the list", () => {
       expect(catalogueService.checkBook("Dracula by Bram Stoker")).toBe(true);
     });
+
+    test("returns false if the book exists in the list", () => {
+      expect(catalogueService.checkBook("Moths by Pamela Mothman")).toBe(false);
+    });
   });
-  
+
 });
