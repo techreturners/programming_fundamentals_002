@@ -27,4 +27,10 @@ describe("catalogueService", () => {
     });
   });
 
+  describe("catalogueService.countBooksByKeyword", () => {
+    test("returns the number of books containing the given keyword", () => {
+      expect(catalogueService.countBooksByKeyword("assassin")).toBe(3);
+    });
+  });
+
 });
